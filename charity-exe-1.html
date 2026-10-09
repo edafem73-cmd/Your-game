@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CHARITY.EXE 🥲</title>
+<style>
+:root{--y:#FFD60A;--k:#0b0b0b;--g:#1c1c1c;--g2:#2b2b2b;--w:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--k);color:var(--w);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;transition:background .8s}
+body.warm{background:radial-gradient(circle at 50% 30%,#2a2200 0,#0b0b0b 65%)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(11,11,11,.92);border-bottom:2px solid var(--y)}
+.pips{display:flex;gap:6px;flex:1}
+.pip{flex:1;height:30px;border:2px solid var(--g2);background:var(--g);color:#777;font-weight:900;border-radius:8px;font-size:.8rem;cursor:pointer}
+.pip.on{background:var(--y);color:var(--k);border-color:var(--y)}
+.pip:disabled{opacity:.35;cursor:not-allowed}
+.ib{background:var(--g);border:2px solid var(--g2);color:var(--w);border-radius:8px;height:30px;min-width:34px;cursor:pointer;font-size:.9rem}
+main{max-width:560px;margin:0 auto;padding:20px 18px 60px}
+.screen[hidden]{display:none}
+.screen{animation:in .5s ease both}
+@keyframes in{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+h1{font-size:clamp(2.6rem,13vw,4.6rem);line-height:.92;margin:.2em 0 .25em;font-weight:900;text-transform:uppercase;letter-spacing:-.03em}
+h1 em{font-style:normal;color:var(--y)}
+h2{font-size:clamp(1.8rem,9vw,2.8rem);line-height:1;margin:.1em 0 .4em;text-transform:uppercase;font-weight:900;letter-spacing:-.02em}
+h3{font-size:1.35rem;line-height:1.25;margin:.4em 0 1em}
+p{line-height:1.55;font-size:1.05rem}
+.tag{display:inline-block;background:var(--y);color:var(--k);font-weight:900;font-size:.72rem;padding:4px 9px;border-radius:99px;letter-spacing:.08em;text-transform:uppercase}
+.warn{border:2px dashed var(--y);border-radius:12px;padding:12px 14px;font-size:.9rem;color:#ddd;margin-top:22px}
+.btn{display:block;width:100%;background:var(--y);color:var(--k);border:0;border-radius:14px;padding:16px 18px;font-size:1.1rem;font-weight:900;text-transform:uppercase;cursor:pointer;margin:10px 0;box-shadow:0 5px 0 #a88c00;transition:transform .08s,box-shadow .08s;font-family:inherit;text-align:center;text-decoration:none}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #a88c00}
+.btn.alt{background:var(--g);color:var(--w);box-shadow:0 5px 0 #000;border:2px solid var(--g2)}
+.opt{display:block;width:100%;text-align:left;background:var(--g);color:var(--w);border:2px solid var(--g2);border-radius:12px;padding:14px;margin:9px 0;font-size:1rem;cursor:pointer;font-family:inherit;transition:.15s}
+.opt:hover,.opt:focus-visible{border-color:var(--y);transform:translateX(4px)}
+.react{background:var(--y);color:var(--k);border-radius:14px;padding:16px;font-weight:700;font-size:1.05rem;line-height:1.45;margin:14px 0;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+.arena{position:relative;height:300px;background:repeating-linear-gradient(45deg,var(--g),var(--g) 12px,#171717 12px,#171717 24px);border:2px solid var(--g2);border-radius:16px;overflow:hidden;margin:14px 0}
+.dog{position:absolute;left:50%;top:6px;transform:translateX(-50%);font-size:6rem;animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateX(-50%) translateY(-10px) rotate(-4deg)}}
+.dog.win{animation:jump .5s ease 4}
+@keyframes jump{50%{transform:translateX(-50%) translateY(-40px) scale(1.2)}}
+#petBtn{position:absolute;width:auto;margin:0;padding:12px 16px;font-size:.95rem;transition:left .22s,top .22s;white-space:nowrap}
+.cnt{font-size:.85rem;color:#aaa}
+.stage{position:relative;overflow:hidden;border-radius:16px;border:2px solid var(--g2);padding:18px;min-height:360px;background:radial-gradient(ellipse at 50% -10%,rgba(255,214,10,.45),transparent 60%),#120f00}
+.curtain{position:absolute;top:0;bottom:0;width:51%;background:repeating-linear-gradient(90deg,#8b0000,#b00020 14px,#6d0016 28px);transition:transform 1.4s ease;z-index:5;pointer-events:none}
+.curtain.l{left:0}.curtain.r{right:0}
+.stage.open .l{transform:translateX(-101%)}.stage.open .r{transform:translateX(101%)}
+.cert{border:4px double var(--y);padding:20px;text-align:center;border-radius:6px;background:#141100;margin:14px 0}
+.cert b{display:block;color:var(--y);font-size:1.7rem;line-height:1.1;margin:10px 0;text-transform:uppercase}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--w);color:var(--k);padding:12px 16px;border-radius:12px;font-weight:800;z-index:50;max-width:90vw;text-align:center;box-shadow:0 6px 24px #000a;animation:pop .3s}
+.fl{position:fixed;top:-40px;font-size:1.6rem;pointer-events:none;z-index:40;animation:fall 2.4s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+.warmmsg p{opacity:0;animation:in 1s ease forwards}
+.warmmsg p:nth-child(1){animation-delay:.3s}.warmmsg p:nth-child(2){animation-delay:1.6s}.warmmsg p:nth-child(3){animation-delay:2.9s}.warmmsg p:nth-child(4){animation-delay:4.2s}.warmmsg p:nth-child(5){animation-delay:5.5s}
+.glow{text-shadow:0 0 22px rgba(255,214,10,.7);color:var(--y)}
+.secret{border:2px solid var(--y);border-radius:14px;padding:18px;margin-top:14px;background:rgba(255,214,10,.08);box-shadow:0 0 30px rgba(255,214,10,.25);animation:pop .6s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.cell{aspect-ratio:1;background:var(--g);border:2px solid var(--g2);border-radius:16px;font-size:2.6rem;cursor:pointer;font-family:inherit}
+.cell:active{background:var(--y)}
+.meter{height:14px;background:var(--g2);border-radius:99px;overflow:hidden;margin:8px 0}
+.meter i{display:block;height:100%;background:var(--y);transition:width .15s}
+.face{font-size:4.5rem;text-align:center;margin:6px 0}
+.play{position:relative;height:340px;overflow:hidden;border:2px solid var(--g2);border-radius:16px;background:linear-gradient(#120f00,#1c1c1c)}
+.note{position:absolute;top:-50px;background:none;border:0;font-size:2.6rem;cursor:pointer;padding:6px;animation:drop 3.2s linear forwards}
+@keyframes drop{to{transform:translateY(400px)}}
+@media (prefers-reduced-motion:reduce){.note{animation-duration:4.5s!important;animation-iteration-count:1!important}}
+.cue{font-size:1.25rem;font-weight:900;text-align:center;min-height:3.4em;color:var(--y);text-transform:uppercase;margin-top:10px}
+.tb{height:6px;background:var(--g2);border-radius:9px;overflow:hidden}
+.tb i{display:block;height:100%;background:var(--y);animation:shr 4.5s linear forwards}
+@keyframes shr{from{width:100%}to{width:0}}
+.ab{font-size:1.9rem;padding:8px 2px;line-height:1.1;color:var(--w)}
+.ab small{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;color:#bbb;margin-top:4px}
+.cell.up,.cell.done{background:var(--y)}
+.cell.done{border-color:#fff;box-shadow:0 0 14px var(--y)}
+.late{opacity:0;animation:in 1s ease 5.6s forwards}
+.cake{width:250px;margin:14px auto 18px;position:relative}
+.candles{display:flex;justify-content:space-around;padding:0 18px}
+.c{width:9px;height:40px;background:#fff;border-radius:3px;position:relative;margin-top:34px}
+.fl2{position:absolute;left:50%;top:-26px;width:16px;height:24px;margin-left:-8px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:radial-gradient(#fff 10%,var(--y) 55%,#ff8c00);box-shadow:0 0 26px 10px rgba(255,214,10,.65);animation:fk .15s infinite alternate}
+@keyframes fk{to{transform:scale(1.1,.92) rotate(4deg)}}
+.c.out .fl2{display:none}
+.cake.blowing .fl2{animation-duration:.05s;transform-origin:bottom}
+#blow{user-select:none;-webkit-user-select:none;touch-action:none;-webkit-touch-callout:none}
+.c.out::after{content:'~';position:absolute;left:-1px;top:-26px;color:#aaa;font-size:1.5rem;animation:in 1.5s ease both}
+.l1{height:58px;background:var(--y);border-radius:14px 14px 0 0;border-top:8px solid #fff}
+.l2{height:72px;background:var(--g2);border-bottom:8px solid var(--y)}
+.plate{height:10px;background:#555;border-radius:99px;margin:0 -16px}
+</style>
+</head>
+<body>
+<header>
+  <div class="pips" id="pips"></div>
+  <button class="ib" id="snd" aria-label="Toggle sound">🔇</button>
+  <button class="ib" id="rst" aria-label="Restart everything">↺</button>
+</header>
+<main>
+
+<!-- 0: INTRO -->
+<section class="screen" id="s0">
+  <span class="tag">Test v1.0 · UNIBEN edition</span>
+  <h1>Charity<em>.exe</em> has stopped being normal.</h1>
+  <p>Welcome, Charity. Your survival instincts, food loyalty, music taste, and ability to be loved are about to be investigated. 🥲</p>
+  <button class="btn" id="start">Start the nonsense 💛</button>
+  <div class="warn">⚠️ Warning: This test contains emotional blackmail, unnecessary drama, yam-related allegations, and one extremely unserious developer.</div>
+</section>
+
+<!-- 1: DOG -->
+<section class="screen" id="s1" hidden>
+  <span class="tag">Level 1 of 4 💛</span>
+  <h2>The Dog Situation 🐕</h2>
+  <h3 id="dogQ">Can you pet this innocent little creature?</h3>
+  <div class="arena" id="arena">
+    <div class="dog" id="dog">🐕</div>
+    <button class="btn" id="petBtn">Pet the dog</button>
+  </div>
+  <div class="cnt" id="dogCnt">Failed attempts: 0</div>
+  <div id="dogEnd"></div>
+</section>
+
+<!-- 2,3,4: quiz levels (filled by JS) -->
+<section class="screen" id="s2" hidden><span class="tag">Level 2 of 4 💛</span><h2>The Yam Crisis 🍠</h2><div id="q2"></div></section>
+<section class="screen" id="s3" hidden><span class="tag">Level 3 of 4 💛</span><h2>The Love Game 💘</h2><div id="q3"></div></section>
+<section class="screen" id="s4" hidden><span class="tag">Level 4 of 4 💛</span><h2>The Music Trial 🎧</h2><div id="q4"></div></section>
+
+<!-- 5: HEARTFELT ENDING + CAKE -->
+<section class="screen" id="s5" hidden>
+  <h1 class="glow">Okay, jokes aside, Love.</h1>
+  <div class="warmmsg" id="warm">
+    <p>You are such a wonderful, lovely friend. 💕 The kind who makes ordinary days feel lighter, who laughs loudest, the one whom her smile alone brightens my heart and you know it🌚, and someone who I can call while in rage, pain, vexation or happy, the one who delivers premium gists especially with screenshots.</p>
+    <p>I hope you always get happiness, peace, genuine love, and beautiful experiences. You deserve every one of them, with no stress attached.</p>
+    <p>Yes, this whole website was intentionally ridiculous, but I pray it makes you smile was the entire time, while reading it, and I'd fail every other exam for it.</p>
+    <p>Thank you for being my Linda person. I'm really glad you exist. 🥰</p>
+  </div>
+  <div id="cakeBox" class="late">
+    <h3 class="glow" style="text-align:center">Make a wish, Charity 🎂</h3>
+    <div class="cake">
+      <div class="candles"><span class="c"><i class="fl2"></i></span><span class="c"><i class="fl2"></i></span><span class="c"><i class="fl2"></i></span><span class="c"><i class="fl2"></i></span><span class="c"><i class="fl2"></i></span></div>
+      <div class="l1"></div><div class="l2"></div><div class="plate"></div>
+    </div>
+    <button class="btn" id="blow">💨 Hold to blow the candles</button>
+  </div>
+  <div id="hb" hidden>
+    <p class="glow"><b>Happy Birthday, Charity. Never stop being wonderfully, ridiculously you. 💛</b></p>
+    <button class="btn" id="last">One last thing…</button>
+  </div>
+  <div id="secret"></div>
+  <button class="btn alt" id="again">↺ Play it all again</button>
+</section>
+
+</main>
+
+<script>
+/* ===== helpers & state ===== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+let cur=0,max=0,sound=false,ac;
+
+// optional beeps (off by default)
+function beep(f=520,d=.09){if(!sound)return;try{ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=.05;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+// little pop-up message
+function toast(t,ms=2600){$$('.toast').forEach(x=>x.remove());const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),ms)}
+// emoji confetti rain
+function rain(list=['💛','🥲','💕','🍠','🐕','🥰'],n=22){if(reduce)return;for(let i=0;i<n;i++){const e=document.createElement('div');e.className='fl';e.textContent=list[i%list.length];e.style.left=Math.random()*95+'vw';e.style.animationDelay=Math.random()*.9+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),3500)}}
+
+/* ===== navigation + progress pips ===== */
+function drawPips(){
+  $('#pips').innerHTML=['1','2','3','4','💛'].map((l,i)=>`<button class="pip ${cur===i+1?'on':''}" data-n="${i+1}" ${i+1>max?'disabled':''} aria-label="Level ${l}">${l}</button>`).join('');
+  $$('.pip').forEach(b=>b.onclick=()=>go(+b.dataset.n));
+}
+function go(n){
+  stopGames();cur=n;max=Math.max(max,n);
+  $$('.screen').forEach((s,i)=>s.hidden=i!==n);
+  document.body.classList.toggle('warm',n===5);
+  drawPips();scrollTo(0,0);beep(600+n*60);
+  if(n===1)initDog();
+  if(n>=2&&n<=4)initQuiz(n);
+  if(n===5){resetCake();rain(['💛','💕','✨'],18)}
+}
+$('#start').onclick=()=>go(1);
+$('#rst').onclick=()=>{max=0;go(0);toast('Fresh start. The dog forgot everything. 🐕')};
+$('#again').onclick=()=>{max=0;go(0)};
+$('#snd').onclick=e=>{sound=!sound;e.target.textContent=sound?'🔊':'🔇';beep(700)};
+
+/* ===== LEVEL 1: runaway button ===== */
+const dogMsgs=['Too slow! 🥲','THE DOG HAS FILED A COMPLAINT.','Even the dog is avoiding your responsibilities.','Charity, please. This is getting embarrassing.','Okay, the dog is tired. Try once more. 🐕'];
+const NEEDED=5; let fails=0,last=0;
+function place(x,y){const a=$('#arena'),b=$('#petBtn');
+  const mx=a.clientWidth-b.offsetWidth-6,my=a.clientHeight-b.offsetHeight-6;
+  b.style.left=Math.max(6,Math.min(mx,x))+'px';b.style.top=Math.max(110,Math.min(my,y))+'px'} // stays inside arena, below the dog
+function dodge(){
+  if(fails>=NEEDED)return;
+  const now=Date.now();if(now-last<350)return;last=now;
+  const a=$('#arena');fails++;
+  place(Math.random()*a.clientWidth,110+Math.random()*(a.clientHeight-150));
+  $('#dogCnt').textContent='Failed attempts: '+fails;
+  toast(dogMsgs[Math.min(fails-1,dogMsgs.length-1)]);beep(200+fails*40);
+  if(fails>=NEEDED){$('#petBtn').textContent='Pet the dog 💛';place(a.clientWidth/2-70,a.clientHeight-70)}
+}
+function initDog(){
+  fails=0;$('#dogEnd').innerHTML='';$('#dog').className='dog';$('#dog').textContent='🐕';
+  $('#dogQ').textContent='Can you pet this innocent little creature?';
+  $('#dogCnt').textContent='Failed attempts: 0';
+  const b=$('#petBtn');b.textContent='Pet the dog';b.hidden=false;
+  requestAnimationFrame(()=>place($('#arena').clientWidth/2-70,170));
+}
+$('#petBtn').addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')dodge()});
+$('#petBtn').addEventListener('click',()=>{
+  if(fails<NEEDED){dodge();return}
+  $('#petBtn').hidden=true;$('#dog').className='dog win';$('#dog').textContent='🐶';
+  $('#dogQ').textContent='Success. 💛';rain(['🐕','💛','🐾']);beep(880,.25);
+  $('#dogEnd').innerHTML=`<div class="react">Congratulations. You have successfully achieved absolutely nothing. The dog loves you anyway. 💕</div><button class="btn" onclick="go(2)">Next level →</button><button class="btn alt" onclick="initDog()">Replay level</button>`;
+});
+
+/* ===== mini-games for levels 2-4 ===== */
+let TM=[];
+function stopGames(){TM.forEach(t=>{clearInterval(t);clearTimeout(t)});TM=[]}
+const bar=p=>`<div class="meter"><i style="width:${Math.min(100,p)}%"></i></div>`;
+function finish(n,html,label){stopGames();$('#q'+n).innerHTML=html+`<button class="btn" onclick="go(${n+1})">${label}</button><button class="btn alt" onclick="initQuiz(${n})">Replay level</button>`;rain();beep(900,.25)}
+function initQuiz(n){stopGames();[0,0,yamGame,loveGame,musicGame][n]()}
+
+/* LEVEL 2: guard the yam (whack-a-yam) */
+function yamGame(){
+  const el=$('#q2'),GOAL=10;let sc=0;
+  el.innerHTML=`<h3>Yam thieves are everywhere! Tap every 🍠 before it vanishes. Beware of imposters.</h3><div class="cnt" id="ys"></div><div id="ym"></div><div class="grid" id="yg">`+[...Array(9)].map(()=>`<button class="cell" aria-label="yam hole"></button>`).join('')+`</div>`;
+  const cells=$$('#yg .cell'),lines={3:'The yam trusts you. 💛',6:'The thieves are shaking.',9:'One more. Do not blink.'};
+  const upd=()=>{$('#ys').textContent=`Yam guarded: ${sc}/${GOAL}`;$('#ym').innerHTML=bar(sc/GOAL*100)};
+  cells.forEach(c=>c.onclick=()=>{
+    const v=c.textContent;if(!v)return;c.textContent='';
+    if(v==='🍠'){sc++;beep(500+sc*50);if(lines[sc])toast(lines[sc])}
+    else{sc=Math.max(0,sc-1);beep(150);toast('That was a POTATO. Yam has never been so disrespected. 🥲')}
+    upd();
+    if(sc>=GOAL)finish(2,`<div class="react">All yam secured! 🍠💛</div><div class="cert"><span class="tag">Official · Totally Legit</span><p>🍠 YAM LOYALTY CERTIFICATE 🍠<br>This certifies that</p><b>Charity</b><p>is hereby crowned</p><b>Supreme Commander of Yam Affairs</b><p style="font-size:.8rem;color:#aaa">Signed: The Yam Council (unserious branch)</p></div>`,'Next level →');
+  });
+  TM.push(setInterval(()=>{const c=cells[Math.random()*9|0];if(c.textContent)return;c.textContent=Math.random()<.7?'🍠':'🥔';TM.push(setTimeout(()=>{c.textContent=''},950))},520));
+  upd();
+}
+
+/* LEVEL 3: the love game (memory match, each pair unlocks a love note) */
+function loveGame(){
+  const P=[['🌻','Your smile alone brightens my heart. 🌻'],['🐕','You are soft with every dog you meet. Kindest heart. 🐕'],['🍠','Yam is lucky to be loved by you. 🍠💛'],['🎧','Tems would approve of you. "Higher", always. 🎧'],['📱','Premium gists with screenshots: my favourite notification. 📱'],['🥲','That face you make when you are being dramatic? I love it. 🥲💕']];
+  const deck=[...P,...P].sort(()=>Math.random()-.5),el=$('#q3');let open=[],found=0,tries=0,lock=false;
+  el.innerHTML=`<h3>Match the pairs to unlock little love notes 💌</h3><div class="cnt" id="ls"></div><div id="lm"></div><div class="grid" id="lg">`+deck.map((p,i)=>`<button class="cell" data-i="${i}" aria-label="card">💛</button>`).join('')+`</div>`;
+  const upd=()=>{$('#ls').textContent=`Pairs found: ${found}/6 · Tries: ${tries}`;$('#lm').innerHTML=bar(found/6*100)};
+  $$('#lg .cell').forEach(c=>c.onclick=()=>{
+    if(lock||c.classList.contains('done')||open.includes(c))return;
+    c.textContent=deck[c.dataset.i][0];c.classList.add('up');open.push(c);beep(500);
+    if(open.length<2)return;
+    tries++;const [a,b]=open;
+    if(deck[a.dataset.i][0]===deck[b.dataset.i][0]){
+      a.classList.add('done');b.classList.add('done');open=[];found++;beep(850);upd();
+      toast(deck[a.dataset.i][1],3200);
+      if(found===6)finish(3,`<div class="react">Love Level complete! 💘 Every pair matched in ${tries} tries. Of course you did, you notice everything. 💕</div>`,'Next level →');
+    }else{lock=true;upd();TM.push(setTimeout(()=>{open.forEach(x=>{x.textContent='💛';x.classList.remove('up')});open=[];lock=false},800))}
+  });
+  upd();
+}
+
+/* LEVEL 4: catch the vibes (falling notes) */
+function musicGame(){
+  const el=$('#q4'),GOAL=12;let n=0,t=0,a=0;
+  el.innerHTML=`<h3>Catch the vibes! Tap 🌙 (Tems) and ⭐ (Ayra Starr) before they fall. Golden 🎧 = "Higher" (+3). Ignore 🗣️.</h3><div class="cnt" id="ms"></div><div id="mm"></div><div class="play" id="pl"></div>`;
+  const pl=$('#pl'),upd=()=>{$('#ms').textContent=`Vibes caught: ${n}/${GOAL}`;$('#mm').innerHTML=bar(n/GOAL*100)};
+  function spawn(){
+    const r=Math.random(),k=r<.38?'🌙':r<.76?'⭐':r<.88?'🗣️':'🎧',e=document.createElement('button');
+    e.className='note';e.textContent=k;e.style.left=(4+Math.random()*78)+'%';
+    e.onanimationend=()=>e.remove();
+    e.onclick=()=>{e.remove();
+      if(k==='🗣️'){toast('Mind your business! 🥲');beep(150);return}
+      if(k==='🌙'){t++;n++}else if(k==='⭐'){a++;n++}else{n+=3;toast('HIGHER! +3 💛')}
+      beep(500+n*40);upd();
+      if(n>=GOAL){const who=t>a?'Tems energy: soft, deep, and quietly dangerous.':a>t?'Ayra Starr energy: loud, bright, and unbothered.':'Perfectly balanced: Tems at night, Ayra Starr by day. 💕';
+        finish(4,`<div class="react">Your music personality: ${who}</div><div class="react">Music taste: emotionally expensive. Vibes: immaculate. Ability to mind your business while listening to music: under investigation. 🎧</div><a class="btn" target="_blank" rel="noopener" href="https://open.spotify.com/search/Higher%20Tems">Listen to "Higher" by Tems</a>`,'Finish 💛')}
+    };
+    pl.appendChild(e);
+  }
+  TM.push(setInterval(spawn,650));spawn();upd();
+}
+
+/* ===== birthday cake ===== */
+let micS;
+function stopMic(){if(micS){micS.getTracks().forEach(t=>t.stop());micS=null}}
+function resetCake(){$$('.c').forEach(c=>c.classList.remove('out'));$('#hb').hidden=true;$('#secret').innerHTML='';$('#blow').hidden=false;$('#cakeBox h3').textContent='Make a wish, Charity 🎂'}
+function snuff(all){
+  const live=$$('.c:not(.out)');if(!live.length)return;
+  (all?live:[live[Math.random()*live.length|0]]).forEach(c=>c.classList.add('out'));beep(300,.15);
+  if(!$$('.c:not(.out)').length){stopMic();$('#blow').hidden=true;$('#cakeBox h3').textContent='Wish made. 💫';$('#hb').hidden=false;rain(['🎂','💛','💕','🎉','🥲'],30);toast('Happy Birthday, Charity! 🎂💛',3500)}
+}
+let bt;
+const stopBlow=()=>{clearInterval(bt);bt=null;$('.cake').classList.remove('blowing')};
+$('#blow').addEventListener('pointerdown',e=>{e.preventDefault();if(bt)return;toast('Keep blowing… 💨',900);$('.cake').classList.add('blowing');
+  bt=setInterval(()=>{snuff(false);beep(260,.1);if(!$$('.c:not(.out)').length)stopBlow()},450)});
+['pointerup','pointerleave','pointercancel'].forEach(t=>$('#blow').addEventListener(t,stopBlow));
+$('#blow').addEventListener('contextmenu',e=>e.preventDefault());
+
+/* ===== final reveal ===== */
+$('#last').onclick=()=>{
+  $('#last').hidden=true;rain(['💛','🥲','🍠','✨'],28);beep(760,.3);
+  $('#secret').innerHTML=`<div class="secret"><p>Your friendship is one of those little blessings that makes life brighter. I hope this new chapter gives you countless reasons to smile. And please, for the love of yam, remain unserious. 🥲💛</p></div>`;
+};
+
+drawPips();
+</script>
+</body>
+</html>
